@@ -1,3 +1,5 @@
+package lecture.L3.ListQueue;
+
 public class Node <E> {
 	private E       item;     
 	private Node<E> next;

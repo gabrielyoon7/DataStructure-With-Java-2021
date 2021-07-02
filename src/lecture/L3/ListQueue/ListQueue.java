@@ -1,3 +1,5 @@
+package lecture.L3.ListQueue;
+
 import java.util.NoSuchElementException;
 public class ListQueue <E> {
 	private Node<E> front, rear;

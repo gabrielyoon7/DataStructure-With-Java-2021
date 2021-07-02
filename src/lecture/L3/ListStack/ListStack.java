@@ -1,3 +1,5 @@
+package lecture.L3.ListStack;
+
 import java.util.EmptyStackException;
 public class ListStack <E> {	
 	private Node<E> top;   // 스택 top 항목을 가진  Node를 가리키기 위해
