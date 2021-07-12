@@ -113,5 +113,10 @@ public class BST<Key extends Comparable<Key>, Value>{
 			preorder(n.getRight()); // n의 오른쪽 서브 트리를 순회하기 위해
 		}
 	}
+
+	public Node copy (Node n){
+		return null;
+	}
+
 }
 
