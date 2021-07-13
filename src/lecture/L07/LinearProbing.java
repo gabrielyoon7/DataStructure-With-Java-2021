@@ -1,55 +1,97 @@
 package lecture.L07;
 
 public class LinearProbing<K, V> {
-	private int M = 11;  // í…Œì´ë¸” í¬ê¸°
-	private K[] a = (K[]) new Object[M]; // í•´ì‹œí…Œì´ë¸”
-	private V[] d = (V[]) new Object[M]; // keyê´€ë ¨ ë°ì´í„° ì €ì¥
-	private int hash(K key){ // í•´ì‹œì½”ë“œ
-		return (key.hashCode() & 0x7fffffff) % M;  // ë‚˜ëˆ—ì…ˆ í•¨ìˆ˜
+	private int M = 11;  // Å×ÀÌºí Å©±â
+	private K[] a = (K[]) new Object[M]; // ÇØ½ÃÅ×ÀÌºí
+	private V[] d = (V[]) new Object[M]; // key°ü·Ã µ¥ÀÌÅÍ ÀúÀå
+	private int hash(K key){ // ÇØ½ÃÄÚµå
+		return (key.hashCode() & 0x7fffffff) % M;  // ³ª´°¼À ÇÔ¼ö
 	}
-	private void put(K key, V data) {  // ì‚½ì… ì—°ì‚°
-		int initialpos = hash(key);    // ì´ˆê¸° ìœ„ì¹˜ 
+	private void put(K key, V data) {  // »ğÀÔ ¿¬»ê
+		int initialpos = hash(key);    // ÃÊ±â À§Ä¡ 
 		int i = initialpos, j = 1;
 		do {
-			if (a[i] == null){  // ì‚½ì… ìœ„ì¹˜ ë°œê²¬
-				a[i] = key;     // keyë¥¼ í•´ì‹œí…Œì´ë¸”ì— ì €ì¥
-				d[i] = data;    // keyê´€ë ¨ ë°ì´í„°ë¥¼ ë™ì¼í•œ ì¸ë±ìŠ¤í•˜ì— ì €ì¥ 
+			if (a[i] == null){  // »ğÀÔ À§Ä¡ ¹ß°ß
+				a[i] = key;     // key¸¦ ÇØ½ÃÅ×ÀÌºí¿¡ ÀúÀå
+				d[i] = data;    // key°ü·Ã µ¥ÀÌÅÍ¸¦ µ¿ÀÏÇÑ ÀÎµ¦½ºÇÏ¿¡ ÀúÀå 
 				return;
 			}
-			if (a[i].equals(key)) {  // ì´ë¯¸ key ì¡´ì¬
-				d[i] = data;    // ë°ì´í„°ë§Œ ê°±ì‹ 
+			if (a[i].equals(key)) {  // ÀÌ¹Ì key Á¸Àç
+				d[i] = data;    // µ¥ÀÌÅÍ¸¸ °»½Å
 				return; 
 			}            
-			i = (initialpos + j++) % M; // i = ë‹¤ìŒ ìœ„ì¹˜           
-		} while (i != initialpos); // í˜„ì¬ iê°€ ì´ˆê¸°ìœ„ì¹˜ì™€ ê°™ê²Œë˜ë©´ ë£¨í”„ ì¢…ë£Œ   
+			i = (initialpos + j++) % M; // i = ´ÙÀ½ À§Ä¡           
+		} while (i != initialpos); // ÇöÀç i°¡ ÃÊ±âÀ§Ä¡¿Í °°°ÔµÇ¸é ·çÇÁ Á¾·á   
 	}
-	public V get(K key) {  // íƒìƒ‰ ì—°ì‚°
+	public V get(K key) {  // Å½»ö ¿¬»ê
 		int initialpos = hash(key);
 		int i = initialpos, j = 1;
-		while (a[i] != null) {  // a[i]ê°€ emptyê°€ ì•„ë‹ˆë©´
+		while (a[i] != null) {  // a[i]°¡ empty°¡ ¾Æ´Ï¸é
 			if (a[i].equals(key))
-				return d[i];    // íƒìƒ‰ ì„±ê³µ
-			i = (initialpos + j++) % M; // i = ë‹¤ìŒ ìœ„ì¹˜
+				return d[i];    // Å½»ö ¼º°ø
+			i = (initialpos + j++) % M; // i = ´ÙÀ½ À§Ä¡
 		}            
-		return null; // íƒìƒ‰ ì‹¤íŒ¨
+		return null; // Å½»ö ½ÇÆĞ
+	}
+
+	public V Delete(int index) {
+		int i = index-1;
+		V temp = d[i];
+		a[i]=null;
+		d[i]=null;
+		return temp;
+	}
+	public V delete(K key) {
+		int i = hash(key);
+		Node pre=null;
+		for (Node x = a[i]; x != null; x = x.next) {   // ¿¬°á¸®½ºÆ® Å½»ö
+			if (key.equals(x.key)) {
+				V temp = (V)x.data;
+				if(pre!=null) {
+					pre.setNext(x.next);
+				}else {
+					a[i]=null;
+				}
+				return temp;
+			}  // Å½»ö ¼º°ø
+			pre = x;
+		}
+
+		return null;
+	}
+	public static class Node {  // Node Å¬·¡½º
+		private Object key;
+		private Object data;
+		private Node   next;
+		public Node(Object newkey, Object newdata, Node ref){  // »ı¼ºÀÚ
+			key  = newkey;
+			data = newdata;
+			next = ref;
+		}
+		public Object getKey()  { return key; }
+		public Object getData() { return data;}
+		public void setNext(Node next) {
+			this.next=next;
+		}
 	}
 	public static void main(String[] args){ 
 		LinearProbing t = new LinearProbing();
-/*		//25, 37, 18, 55, 22, 35, 50, 63ì„ ì°¨ë¡€ë¡œ í•´ì‹œí…Œì´ë¸”ì— ì €ì¥
+/*		//25, 37, 18, 55, 22, 35, 50, 63À» Â÷·Ê·Î ÇØ½ÃÅ×ÀÌºí¿¡ ÀúÀå
 		t.put(25, "grape"); t.put(37, "apple");	t.put(18, "bananna");
 		t.put(55, "cherry");t.put(22, "mango");	t.put(35, "lime");
 		t.put(50, "orange");t.put(63, "watermelon");
 		
-		System.out.println("íƒìƒ‰ ê²°ê³¼:");
-		System.out.println("50ì˜ data = "+t.get(50));
-		System.out.println("63ì˜ data = "+t.get(63));
+		System.out.println("Å½»ö °á°ú:");
+		System.out.println("50ÀÇ data = "+t.get(50));
+		System.out.println("63ÀÇ data = "+t.get(63));
 		System.out.println();
 */
 		t.put(71, "grape"); t.put(23, "apple");	t.put(73, "bananna");
 		t.put(49, "cherry");t.put(54, "mango");	t.put(89, "lime");
 		t.put(39, "orange");
-		
-		System.out.println("í•´ì‹œ í…Œì´ë¸”:");   
+		t.delete(39);
+
+		System.out.println("ÇØ½Ã Å×ÀÌºí:");   
 		for(int i=0;i<t.M;++i) System.out.printf("\t%2d",i);
 		System.out.println();
 		for(int i=0;i<t.M;++i) System.out.print("\t"+t.a[i]);
