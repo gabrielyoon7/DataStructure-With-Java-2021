@@ -19,5 +19,9 @@ public class main {
 
 		t.print(t.root);System.out.println();
 		System.out.println("높이 = "+ t.height());
+
+		t.delete(10);
+		System.out.println("\n\n\n하나 삭제 후");
+		t.print(t.root);System.out.println();
 	}
 }

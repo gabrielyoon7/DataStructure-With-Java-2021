@@ -41,24 +41,24 @@ public class LinearProbing<K, V> {
 		d[i]=null;
 		return temp;
 	}
-	public V delete(K key) {
-		int i = hash(key);
-		Node pre=null;
-		for (Node x = a[i]; x != null; x = x.next) {   // 연결리스트 탐색
-			if (key.equals(x.key)) {
-				V temp = (V)x.data;
-				if(pre!=null) {
-					pre.setNext(x.next);
-				}else {
-					a[i]=null;
-				}
-				return temp;
-			}  // 탐색 성공
-			pre = x;
-		}
-
-		return null;
-	}
+//	public V delete(K key) {
+//		int i = hash(key);
+//		Node pre=null;
+//		for (Node x = a[i]; x != null; x = x.next) {   // 연결리스트 탐색
+//			if (key.equals(x.key)) {
+//				V temp = (V)x.data;
+//				if(pre!=null) {
+//					pre.setNext(x.next);
+//				}else {
+//					a[i]=null;
+//				}
+//				return temp;
+//			}  // 탐색 성공
+//			pre = x;
+//		}
+//
+//		return null;
+//	}
 	public static class Node {  // Node 클래스
 		private Object key;
 		private Object data;
@@ -89,7 +89,7 @@ public class LinearProbing<K, V> {
 		t.put(71, "grape"); t.put(23, "apple");	t.put(73, "bananna");
 		t.put(49, "cherry");t.put(54, "mango");	t.put(89, "lime");
 		t.put(39, "orange");
-		t.delete(39);
+//		t.delete(39);
 
 		System.out.println("해시 테이블:");   
 		for(int i=0;i<t.M;++i) System.out.printf("\t%2d",i);
